@@ -20,8 +20,17 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
+  groovin_material_icons: ^1.1.6
+
   bloc: any
   flutter_bloc: any
+
+  path_provider: ^1.2.0
+  fluttertoast: any
+  shared_preferences: ^0.5.3+4
+  auto_orientation: ^1.0.5
+
+  dio: any
 
 dev_dependencies:
   flutter_test:

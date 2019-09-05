@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'pages/home_screen.dart';
-import 'pages/community_screen.dart';
-import 'pages/mine_screen.dart';
+//import 'pages/home_screen.dart';
+//import 'pages/community_screen.dart';
+//import 'pages/mine_screen.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   @override
@@ -15,10 +15,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
 
   @override
   void initState(){
-    Screen_list
-      ..add(ComScreen())
-      ..add(HomeScreen())
-      ..add(MineScreen());
+//    Screen_list
+//      ..add(ComScreen())
+//      ..add(HomeScreen())
+//      ..add(MineScreen());
     super.initState();
   }
 
