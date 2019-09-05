@@ -1,6 +1,6 @@
 # health_assistant
 
-A new Flutter application.
+暑期实践作业
 
 ## Getting Started
 
