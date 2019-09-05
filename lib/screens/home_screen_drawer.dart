@@ -2,7 +2,7 @@
 // Email: hu.wentao@outlook.com
 // Date : 2019/8/21
 // Time : 9:52
-part of 'main_screen.dart';
+part of 'home_screen.dart';
 
 _buildDrawer(BuildContext context, AuthenticationBloc loginBloc) =>
     Drawer(

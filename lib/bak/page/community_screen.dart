@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import "package:health_assistant/absorbScreen.dart";
-import 'package:health_assistant/hotScreen.dart';
-import 'package:health_assistant/chatScreen.dart';
+
+import '../absorbScreen.dart';
+import '../chatScreen.dart';
+import '../hotScreen.dart';
+//import "package:health_assistant/absorbScreen.dart";
+//import 'package:health_assistant/hotScreen.dart';
+//import 'package:health_assistant/chatScreen.dart';
 //import 'package:demo01/mainchat.dart';
 // 引入头文件
 void main() {
@@ -38,7 +42,7 @@ class ComScreen extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text('这个app很好用,希望越累越多的人知道他 ',
+                  child: Text('这个app很好用,希望越来越多的人知道他 ',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style:
@@ -74,7 +78,7 @@ class ComScreen extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text('这个app很好用,希望越累越多的人知道他 ',
+                  child: Text('这个app很好用,希望越来越多的人知道他 ',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style:
@@ -96,16 +100,16 @@ class ComScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           IconButton(
-            
+
               icon: Icon(Icons.star),
               color: Colors.lightGreen[600],
               onPressed: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>absorbScreen()))
               ),
-              
+
           IconButton(
               icon: Icon(Icons.tab),
-            
+
               color: Colors.lightGreen[600],
               onPressed: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>hotScreen()))
@@ -114,9 +118,9 @@ class ComScreen extends StatelessWidget {
               icon: Icon(Icons.chat),
               color: Colors.lightGreen[600],
               onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>chatScreen())) // 
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>chatScreen())) //
               ),
-         
+
         ],
       ),
     );

@@ -4,15 +4,16 @@
 // Time : 13:44
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_assistant/screens/about_screen.dart';
 import 'package:health_assistant/screens/login_screen.dart';
-import 'package:health_assistant/screens/main_screen.dart';
+import 'package:health_assistant/screens/home_screen.dart';
 
 import 'bloc/authentication_bloc.dart';
 
 
 final Map<String, WidgetBuilder> getRouts = <String, WidgetBuilder>{
-  MainPage.TAG: (ctx) => MainPage(),
+  HomePage.TAG: (ctx) => HomePage(),
   AboutPage.TAG: (ctx) => AboutPage(),
   LoginPage.TAG: (ctx,{loginBloc})=>LoginPage(loginBloc),
 };

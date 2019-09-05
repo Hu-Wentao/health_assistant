@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ride_app/homes/health_list.dart';
+
+import '../homes/health_list.dart';
+//import 'package:ride_app/homes/health_list.dart';
 
 
 class HomeScreen extends StatelessWidget {
