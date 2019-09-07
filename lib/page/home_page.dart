@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activeTab) {
         return Scaffold(
-          appBar: AppBar(title: Text("home")),
+//          appBar: AppBar(title: Text("home")),
           body: buildBodyBy(activeTab),
           bottomNavigationBar: TabSelector(
             activeTab: activeTab,
@@ -33,6 +33,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget buildBodyBy(AppTab activeTab) {
+    print('HomePage.buildBodyBy # 页面选择$activeTab');
     switch (activeTab) {
       case AppTab.CHECK:
         return CheckScreen();

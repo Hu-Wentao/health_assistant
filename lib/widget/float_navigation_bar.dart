@@ -4,12 +4,15 @@
 // Time : 22:24
 
 import 'package:flutter/material.dart';
+
 ///
 /// 当前版本：
 /// 1. 还需要参考BottomNavigationBar， 进行优化
 /// 2. 活跃的Icon颜色， 目前直接使用 Theme.of(context).primaryColor, 不能手动设定
 /// 3. backgroundColor, selectItemColor等都不能手动设定,
 /// 4. FloatNavigationItem 类只有icon参数是有效的, 其他参数均没有被使用
+/// 5. currentIndex 如果不为0， 则展示效果有BUG
+/// 6. 图标的颜色切换前就变化了， 应当在图标动画播放完毕后， 再切换图标颜色
 class FloatNavigationBar extends StatefulWidget {
   FloatNavigationBar({
     Key key,
@@ -41,7 +44,7 @@ class FloatNavigationBar extends StatefulWidget {
 
 class _FloatNavigationBarState extends State<FloatNavigationBar>
     with SingleTickerProviderStateMixin {
-  int _activeIndex = 0; //激活项
+  int _activeIndex = 0; //激活项 //todo bug 如果不为0 则按钮位置异常
   final double _height = 48.0; //导航栏高度
   double _floatRadius; //悬浮图标半径
   double _moveTween = 0.0; //移动补间
@@ -62,7 +65,7 @@ class _FloatNavigationBarState extends State<FloatNavigationBar>
   void initState() {
     _floatRadius = _height * 2 / 3;
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 220));
     super.initState();
   }
 
@@ -71,76 +74,66 @@ class _FloatNavigationBarState extends State<FloatNavigationBar>
     double width = MediaQuery.of(context).size.width;
     double singleWidth = width / items.length;
     return Container(
-      child: Stack(children: [
-        Positioned(
-          bottom: 0.0,
-          child: Container(
-            width: width,
-            child: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                //浮动图标
-                Positioned(
-                  top: _animationController.value <= 0.5
-                      ? (_animationController.value * _height * _padding / 2) -
-                          _floatRadius / 3 * 2
-                      : (1 - _animationController.value) *
-                              _height *
-                              _padding /
-                              2 -
-                          _floatRadius / 3 * 2,
-                  left: _moveTween * singleWidth +
-                      (singleWidth - _floatRadius) / 2 -
-                      _padding / 2,
-                  child: DecoratedBox(
-                    decoration:
-                        ShapeDecoration(shape: CircleBorder(), shadows: [
-                      BoxShadow(
-                          blurRadius: _padding / 2,
-                          offset: Offset(0, _padding / 2),
-                          spreadRadius: 0,
-                          color: Colors.black26),
-                    ]),
-                    child: CircleAvatar(
-                        radius: _floatRadius - _padding, //浮动图标和圆弧之间设置8pixel间隙
-                        backgroundColor: Colors.white,
-                        child: Icon(items[_activeIndex].icon,
-                            color: Theme.of(context).primaryColor)),
-                  ),
-                ),
-                //所有图标
-                CustomPaint(
-                  child: SizedBox(
-                    height: _height,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: items
-                          .asMap()
-                          .map((i, v) => MapEntry(
-                              i,
-                              GestureDetector(
-                                child: Icon(v.icon,
-                                    size: 28,
-                                    color: _activeIndex == i
-                                        ? Colors.transparent
-                                        : Colors.grey),
-                                onTap: () => _switchNav(i),
-                              )))
-                          .values
-                          .toList(),
-                    ),
-                  ),
-                  painter: ArcPainter(
-                      navCount: items.length,
-                      moveTween: _moveTween,
-                      padding: _padding),
-                )
-              ],
+//            color: Colors.blue,
+      width: width,
+      child: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          //浮动图标
+          Positioned(
+            top: _animationController.value <= 0.5
+                ? (_animationController.value * _height * _padding / 2) -
+                    _floatRadius / 3 * 2
+                : (1 - _animationController.value) * _height * _padding / 2 -
+                    _floatRadius / 3 * 2,
+            left: _moveTween * singleWidth +
+                (singleWidth - _floatRadius) / 2 -
+                _padding / 2,
+            child: DecoratedBox(
+              decoration: ShapeDecoration(shape: CircleBorder(), shadows: [
+                BoxShadow(
+                    blurRadius: _padding / 2,
+                    offset: Offset(0, _padding / 2),
+                    spreadRadius: 0,
+                    color: Colors.black26),
+              ]),
+              child: CircleAvatar(
+                  radius: _floatRadius - _padding, //浮动图标和圆弧之间设置8pixel间隙
+                  backgroundColor: Colors.white,
+                  child: Icon(items[_activeIndex].icon,
+                      color: Theme.of(context).primaryColor)),
             ),
           ),
-        )
-      ]),
+          //所有图标
+          CustomPaint(
+            child: SizedBox(
+              height: _height,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: items
+                    .asMap()
+                    .map((i, v) => MapEntry(
+                        i,
+                        GestureDetector(
+                          child: Icon(v.icon,
+                              size: 28,
+                              color: _activeIndex == i
+                                  ? Colors.transparent
+                                  : Colors.grey),
+                          onTap: () => _switchNav(i),
+                        )))
+                    .values
+                    .toList(),
+              ),
+            ),
+            painter: ArcPainter(
+                navCount: items.length,
+                moveTween: _moveTween,
+                padding: _padding),
+          )
+        ],
+      ),
     );
   }
 

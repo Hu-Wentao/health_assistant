@@ -35,6 +35,8 @@ class MyApp extends StatelessWidget {
                 ],
                 child: HomePage(),
               ),
+//          AppRouts.ABOUT_PAGE:
+//          AppRouts.LOGIN_PAGE:
         },
       ),
     );
