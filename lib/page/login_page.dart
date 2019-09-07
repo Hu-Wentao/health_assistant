@@ -6,7 +6,7 @@ import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:health_assistant/bloc/bloc.dart';
-import 'package:health_assistant/bloc/authentication_bloc.dart';
+import 'package:health_assistant/bloc/authentication/authentication_bloc.dart';
 import 'package:health_assistant/common/user.dart';
 
 class LoginPage extends StatefulWidget {
