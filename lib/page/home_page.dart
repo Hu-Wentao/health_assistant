@@ -20,14 +20,16 @@ class HomePage extends StatelessWidget {
     final tabBloc = BlocProvider.of<TabBloc>(context);
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activeTab) {
-        return Scaffold(
-//          appBar: AppBar(title: Text("home")),
-          body: buildBodyBy(activeTab),
-          bottomNavigationBar: TabSelector(
-            activeTab: activeTab,
-            onTabSelected: (tab) => tabBloc.dispatch(UpdateTab(tab)),
+        return Stack(children: <Widget>[
+          Scaffold(body: buildBodyBy(activeTab)),
+          Positioned(
+            bottom: 0,
+            child: TabSelector(
+              activeTab: activeTab,
+              onTabSelected: (tab) => tabBloc.dispatch(UpdateTab(tab)),
+            ),
           ),
-        );
+        ]);
       },
     );
   }

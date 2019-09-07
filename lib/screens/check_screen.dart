@@ -5,7 +5,11 @@ class CheckScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text("check")),
+      color: Colors.amber,
+      child: Center(child: Text("aaa"),),
     );
+//    return Column(
+//
+//    );
   }
 }
