@@ -9,7 +9,6 @@ import 'package:health_assistant/page/about_page.dart';
 import 'package:health_assistant/page/login_page.dart';
 import 'package:health_assistant/page/home_page.dart';
 
-import 'bloc/authentication/authentication_bloc.dart';
 import 'bloc/bloc.dart';
 
 class AppRouts {

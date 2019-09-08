@@ -10,8 +10,11 @@ class MyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _getUserCard(context),
+        _getTitleBar("常用工具"),
+        _getToolFlow(context),
       ],
     );
   }
@@ -41,9 +44,10 @@ class MyScreen extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     child: Text("登录/注册",
-                        style:
-                            TextStyle(fontWeight: FontWeight.w800, fontSize: 28)),
-                    onTap: ()=>AppRouts.goPageBy(AppRouts.LOGIN_PAGE, context),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 28)),
+                    onTap: () =>
+                        AppRouts.goPageBy(AppRouts.LOGIN_PAGE, context),
                   ),
                   ClipOval(child: Image.asset("images/default_avatar.png")),
                 ],
@@ -52,24 +56,54 @@ class MyScreen extends StatelessWidget {
             // 第3行, "关注" "医生" "钱包"...等
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(
-                  4, (i) => _buildValueBlock(0, userCardTitles[i])),
+              children: List.generate(4,
+                  (i) => _buildValueBlock(const Text("0"), userCardTitles[i])),
             ),
           ],
         ),
       ),
     );
   }
+
+  _getTitleBar(String title) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 0, 8),
+      child: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+      ),
+    );
+  }
+
+  /// 常用工具
+  _getToolFlow(BuildContext context) {
+    /// 假数据
+    List<IconData> icons = [
+      Icons.timer,
+      Icons.contact_phone,
+      Icons.business_center,
+      Icons.question_answer,
+    ];
+    List<String> titles = ["快速预约", "家庭联系人", "邀请有奖", "常见问题"];
+    return Wrap(
+      children: List.generate(
+          icons.length,
+          (i) => _buildValueBlock(
+              Icon(icons[i], color: Colors.lightBlue, size: 32), titles[i],
+              padding: const EdgeInsets.all(16))),
+    );
+  }
 }
 
-//. 上数值, 下文字
-_buildValueBlock(int val, String title) {
+/// 上widget, 下文字
+_buildValueBlock(Widget wid, String title,
+    {EdgeInsets padding: const EdgeInsets.all(8.0)}) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: padding,
     child: Column(
       children: <Widget>[
-        Text("$val"),
-        Text(title, style: TextStyle(fontWeight: FontWeight.w300)),
+        wid,
+        Text(title, style: TextStyle(fontWeight: FontWeight.w400)),
       ],
     ),
   );
