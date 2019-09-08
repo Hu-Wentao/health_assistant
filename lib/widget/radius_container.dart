@@ -15,7 +15,8 @@ class RadiusContainer extends StatelessWidget {
     Key key,
     this.child,
     this.margin: const EdgeInsets.all(8),
-    this.padding: const EdgeInsets.all(8), this.bgColor,
+    this.padding: const EdgeInsets.all(8),
+    this.bgColor,
   }) : super(key: key);
 
   RadiusContainer.col({Key key, List<Widget> children})
@@ -31,9 +32,9 @@ class RadiusContainer extends StatelessWidget {
       child: Material(
         child: Container(
           padding: padding,
-          child: child,
+            child: child,
         ),
-      color: bgColor,
+        color: bgColor,
         borderRadius: BorderRadius.circular(15.0),
         shadowColor: Colors.grey,
         elevation: 4,

@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:health_assistant/widget/grid_data_block.dart';
+import 'package:health_assistant/widget/widget.dart';
 
 class CheckScreen extends StatelessWidget {
   //todo 这里可以直接 final bloc = BlocProvider.of ... 而这些bloc的声明都应在 main.dart中的 routs中的MultiBlocProvider中写好
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(4, 0, 4, 80),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
       child: Column(
         children: <Widget>[
-          Container(height: 32),
-          _getRotation(),
+          Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
+              _getRotation(), // 轮播图
+              _getFloatButtonBar(), // 浮动按钮栏
+            ],
+          ),
+          _getDailyQuestionBar(), // 每日一题
+          _getHeathBar(), // "我的健康"
+          _getHeathDataFlow(context), // 健康块
 
-          _getDailyQuestionBar(),
-          Container(height: 8),
-          _getMyHeathBar(),
-          _getHeathDataRow(context),
+          _getRecommendBar(), // "推荐"
+          _getRecommendList(context), // 推荐内容
         ],
       ),
     );
@@ -25,10 +32,15 @@ class CheckScreen extends StatelessWidget {
   ///==============================
   /// 轮播图
   Widget _getRotation() {
-    List<Image> imgList =
-        List.generate(3, (i) => Image.asset('images/banner_$i.jpg'));
+    List<Image> imgList = List.generate(
+        3,
+        (i) => Image.asset(
+              'images/banner/banner_$i.jpg',
+              fit: BoxFit.cover,
+            ));
     return Container(
-      height: 210,
+      padding: const EdgeInsets.only(bottom: 30), // 轮播图底部到"每日一题"的举例
+      height: 260,
       child: Swiper(
         itemCount: 3,
         loop: true,
@@ -36,7 +48,31 @@ class CheckScreen extends StatelessWidget {
         index: 0,
         autoplay: true,
         itemBuilder: (ctx, index) => imgList[index],
-//        pagination: SwiperPagination.dots,
+      ),
+    );
+  }
+
+  /// 悬浮在banner之上的按钮栏
+  Widget _getFloatButtonBar() {
+    return RadiusContainer(
+      margin: const EdgeInsets.fromLTRB(24, 8, 24, 10),
+      padding: const EdgeInsets.fromLTRB(32, 12, 32, 12), // 容器内部padding
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(children: <Widget>[
+            Icon(Icons.featured_play_list, color: Colors.blueAccent, size: 38),
+            Container(width: 8),
+            Text("快速问诊",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+          ]),
+          Row(children: <Widget>[
+            Icon(Icons.search, color: Colors.blueAccent, size: 38),
+            Container(width: 8),
+            Text("找医生",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+          ]),
+        ],
       ),
     );
   }
@@ -45,7 +81,7 @@ class CheckScreen extends StatelessWidget {
   Widget _getDailyQuestionBar() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
       child: Row(
         children: <Widget>[
           Text("每日一题",
@@ -64,27 +100,10 @@ class CheckScreen extends StatelessWidget {
   }
 
   /// "我的健康"
-  Widget _getMyHeathBar() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            "我的健康",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-          ),
-          Text(
-            "更多 >",
-            style: TextStyle(color: Colors.black45, fontSize: 15),
-          )
-        ],
-      ),
-    );
-  }
+  Widget _getHeathBar() => _buildBar("我的健康", "更多 >");
 
   /// 健康数据 （动吖）
-  Widget _getHeathDataRow(BuildContext context) {
+  Widget _getHeathDataFlow(BuildContext context) {
     /// 假数据
     final List<IconData> icons = [
       Icons.colorize,
@@ -124,7 +143,7 @@ class CheckScreen extends StatelessWidget {
 //    final width = MediaQuery.of(context).size.width;
     // todo 考虑使用Flow来替换Wrap, 让子控件间隙对齐, 目前只能手动切换 spacing 8, 与spacing 17 以均衡间隙
     return Wrap(
-      spacing: 17,
+      spacing: 15,
       runSpacing: 8,
 //      runAlignment: WrapAlignment.,
       direction: Axis.horizontal,
@@ -135,4 +154,50 @@ class CheckScreen extends StatelessWidget {
           List.generate(bundleList.length, (i) => GridDataBlock(bundleList[i])),
     );
   }
+
+  _getRecommendBar() {
+    return _buildBar("推荐", "更多>");
+  }
+
+  _getRecommendList(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Container(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            width: 120,
+            height: 100,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                child: Image.asset(
+                  "images/recommend/img_1.jpg",
+                  fit: BoxFit.fitHeight,
+                ))),
+        Expanded(
+          child: Text(
+            "糖尿病患者临睡前怎样合理加餐",
+            style: Theme.of(context).textTheme.title,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+Widget _buildBar(String title, String trail) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(12, 18, 12, 8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+        ),
+        Text(
+          trail,
+          style: TextStyle(color: Colors.black45, fontSize: 15),
+        )
+      ],
+    ),
+  );
 }

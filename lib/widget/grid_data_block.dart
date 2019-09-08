@@ -22,18 +22,19 @@ class GridDataBundle {
 }
 
 class GridDataBlock extends StatelessWidget {
-  GridDataBlock(this.bd, {this.width: 106});
+  GridDataBlock(this.bd, {this.width: 108, this.padding: const EdgeInsets.all(2)});
 
   final GridDataBundle bd;
   final double width;
+  final EdgeInsets padding;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: const EdgeInsets.all(1),
+      padding: padding,
       child: Material(
         child: Container(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
