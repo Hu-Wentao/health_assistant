@@ -114,7 +114,9 @@ class CheckScreen extends StatelessWidget {
       Icons.book,
       Icons.assessment,
     ];
-    final List<String> titls = [" 血压", " 血糖", " 体重 ", "", "", "", ""];
+
+    // todo 添加一个 心跳
+    final List<String> titls = [" 血压", " 血糖", " 体重", "", "", "", ""];
     final List<String> datas = [
       " --/-- mmHg",
       " -- mmol/L",
