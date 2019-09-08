@@ -62,7 +62,7 @@ class AboutPage extends StatelessWidget {
     return [
       Padding(
         padding: const EdgeInsets.fromLTRB(32, 42, 32, 20),
-        child: Image.asset('assets/images/app_icon.png', height: 100),
+        child: Image.asset('images/app_icon.png', height: 100),
       ),
       RadiusContainer.col(children: <Widget>[
         ListTile(
