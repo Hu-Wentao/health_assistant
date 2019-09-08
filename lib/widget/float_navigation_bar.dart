@@ -45,7 +45,7 @@ class FloatNavigationBar extends StatefulWidget {
 class _FloatNavigationBarState extends State<FloatNavigationBar>
     with SingleTickerProviderStateMixin {
   int _activeIndex = 0; //激活项 //todo bug 如果不为0 则按钮位置异常
-  final double _height = 48.0; //导航栏高度
+  final double _height = 42.0; //导航栏高度
   double _floatRadius; //悬浮图标半径
   double _moveTween = 0.0; //移动补间
   double _padding = 10.0; //浮动图标与圆弧之间的间隙

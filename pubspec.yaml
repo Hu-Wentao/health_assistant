@@ -24,6 +24,9 @@ dependencies:
 
   bloc: any
   flutter_bloc: any
+  equatable: any
+
+  flutter_swiper: any
 
   path_provider: ^1.2.0
   fluttertoast: any
@@ -31,8 +34,6 @@ dependencies:
   auto_orientation: ^1.0.5
 
   dio: any
-
-  equatable: any
 
 dev_dependencies:
   flutter_test:

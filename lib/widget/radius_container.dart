@@ -7,12 +7,15 @@ import 'package:flutter/material.dart';
 
 class RadiusContainer extends StatelessWidget {
   final Widget child;
+  final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry padding;
+  final Color bgColor;
 
   RadiusContainer({
     Key key,
     this.child,
-    this.padding: const EdgeInsets.all(8),
+    this.margin: const EdgeInsets.all(8),
+    this.padding: const EdgeInsets.all(8), this.bgColor,
   }) : super(key: key);
 
   RadiusContainer.col({Key key, List<Widget> children})
@@ -24,9 +27,13 @@ class RadiusContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: margin,
       child: Material(
-        child: child,
+        child: Container(
+          padding: padding,
+          child: child,
+        ),
+      color: bgColor,
         borderRadius: BorderRadius.circular(15.0),
         shadowColor: Colors.grey,
         elevation: 4,
