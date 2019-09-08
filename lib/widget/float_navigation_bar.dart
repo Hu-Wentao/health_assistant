@@ -48,7 +48,7 @@ class _FloatNavigationBarState extends State<FloatNavigationBar>
   final double _height = 42.0; //导航栏高度
   double _floatRadius; //悬浮图标半径
   double _moveTween = 0.0; //移动补间
-  double _padding = 10.0; //浮动图标与圆弧之间的间隙
+  double _padding = 9.0; //浮动图标与圆弧之间的间隙
   AnimationController _animationController; //动画控制器
   Animation<double> _moveAnimation; //移动动画
 
