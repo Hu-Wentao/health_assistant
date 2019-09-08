@@ -4,26 +4,21 @@
 // Time : 9:15
 import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:health_assistant/bloc/bloc.dart';
-import 'package:health_assistant/bloc/authentication/authentication_bloc.dart';
 import 'package:health_assistant/common/user.dart';
 
 class LoginPage extends StatefulWidget {
   static const TAG = "/LoginPage";
 
-  final AuthenticationBloc loginBloc;
-
-  const LoginPage(this.loginBloc, {Key key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState(loginBloc);
+  _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  _LoginPageState(this._loginBloc);
-
-  final AuthenticationBloc _loginBloc;
   final _formKey = GlobalKey<FormState>();
 
   String _account, _password, _rePassword;
@@ -49,6 +44,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthenticationBloc loginBloc =
+        BlocProvider.of<AuthenticationBloc>(context);
+
     return Scaffold(
         body: Form(
             key: _formKey,
@@ -68,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     : _buildReInputPasswordTextField(context),
 
                 SizedBox(height: 50.0),
-                _buildLoginOrRegisterButton(context),
+                _buildLoginOrRegisterButton(context, loginBloc),
                 SizedBox(height: 30.0),
 //                _buildOtherLoginText(),
 //                _buildOtherMethod(context),
@@ -81,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        _isLogin ? 'Login' : "Register",
+        _isLogin ? '登录' : "注册",
         style: TextStyle(fontSize: 42.0),
       ),
     );
@@ -108,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
         Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
-            _isLogin ? 'Login' : "Register",
+            _isLogin ? '登录' : "注册",
             style: TextStyle(fontSize: 42.0),
           ),
         ),
@@ -130,13 +128,13 @@ class _LoginPageState extends State<LoginPage> {
   TextFormField _buildAccountTextField() {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: 'Account',
+        labelText: '账号',
       ),
       validator: (String value) {
 //        var emailReg = RegExp(
 //            r"[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?");
 //        return !emailReg.hasMatch(value) ? '请输入正确的邮箱地址' : null;
-        return value.isEmpty ? "Please input account" : null;
+        return value.isEmpty ? "请输入账号" : null;
       },
       onSaved: (String value) => _account = value,
     );
@@ -146,10 +144,10 @@ class _LoginPageState extends State<LoginPage> {
         onSaved: (String value) => _password = value,
         obscureText: _isPwdObscure,
         validator: (String value) {
-          return value.isEmpty ? 'Enter Password:' : null;
+          return value.isEmpty ? '输入密码:' : null;
         },
         decoration: InputDecoration(
-            labelText: 'Password',
+            labelText: '密码',
             suffixIcon: IconButton(
                 icon: Icon(
                   Icons.remove_red_eye,
@@ -165,13 +163,14 @@ class _LoginPageState extends State<LoginPage> {
                 })),
       );
 
+  /// 忘记密码
   Widget _buildForgetPasswordText(BuildContext context) => Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Align(
           alignment: Alignment.centerRight,
           child: FlatButton(
             child: Text(
-              'Forgot Password?',
+              '忘记密码?',
               style: TextStyle(fontSize: 14.0, color: Colors.grey),
             ),
             onPressed: () {
@@ -181,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
+  /// 再次输入密码
   _buildReInputPasswordTextField(BuildContext context) => Padding(
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 4),
         child: TextFormField(
@@ -188,15 +188,15 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: _isRePwdObscure,
           validator: (String value) {
             if (value.isEmpty) {
-              return 'Re-enter  Password:';
+              return '再次输入密码:';
             } else if (_password != _rePassword) {
-              return "Password not matched";
+              return "密码不匹配";
             } else {
               return null;
             }
           },
           decoration: InputDecoration(
-              labelText: 'Input again',
+              labelText: '再次输入',
               suffixIcon: IconButton(
                   icon: Icon(
                     Icons.remove_red_eye,
@@ -213,15 +213,20 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-  Align _buildLoginOrRegisterButton(BuildContext context) {
+  /// 登录/ 注册 按钮
+  Align _buildLoginOrRegisterButton(
+    BuildContext context,
+    AuthenticationBloc _loginBloc,
+  ) {
     return Align(
       child: SizedBox(
         height: 45.0,
         width: 270.0,
         child: RaisedButton(
           child: Text(
-            _isLogin ? 'Login' : "Register",
-            style: Theme.of(context).primaryTextTheme.headline,
+            _isLogin ? '登录' : "注册",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w400, fontSize: 18),
           ),
           color: Colors.black,
           onPressed: () {
@@ -230,8 +235,8 @@ class _LoginPageState extends State<LoginPage> {
             if (_formKey.currentState.validate()) {
               final user = User(uName: _account, uPwd: _password);
               _loginBloc.dispatch(_isLogin
-                  ? VerifyUser(user, "Verifying password...")
-                  : Register(user, "Signing up..."));
+                  ? VerifyUser(user, "正在验证密码...")
+                  : Register(user, "正在注册..."));
             }
           },
           shape: StadiumBorder(side: BorderSide()),
@@ -249,6 +254,7 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
+  /// 第三方登录
   ButtonBar _buildOtherMethod(BuildContext context) {
     return ButtonBar(
       alignment: MainAxisAlignment.center,
@@ -263,8 +269,8 @@ class _LoginPageState extends State<LoginPage> {
                         Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("${item['title']}登录"),
                           action: new SnackBarAction(
-                            label: "Cancel",
-                            onPressed: () {},
+                            label: "取消",
+                            onPressed: () {}, //todo
                           ),
                         ));
                       });
@@ -282,10 +288,10 @@ class _LoginPageState extends State<LoginPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text((_isLogin ? "Don't have" : "Have") + " an account? "),
+            Text((_isLogin ? "没有" : "已有") + "账号? "),
             FlatButton(
               child: Text(
-                _isLogin ? 'Register' : "Login",
+                _isLogin ? '点击注册' : "点击登录",
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
               onPressed: () {
@@ -308,12 +314,12 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     AutoOrientation.portraitAutoMode();
-
-    _loginBloc.state.listen((state) {
-      if (state.runtimeType == Signed) {
-        Navigator.of(context).pop();
-      }
-    });
+//
+//    _loginBloc.state.listen((state) {
+//      if (state.runtimeType == Signed) {
+//        Navigator.of(context).pop();
+//      }
+//    });
   }
 
   @override

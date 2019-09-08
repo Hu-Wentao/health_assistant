@@ -35,18 +35,18 @@ class CheckScreen extends StatelessWidget {
     List<Image> imgList = List.generate(
         3,
         (i) => Image.asset(
-              'images/banner/banner_$i.jpg',
-              fit: BoxFit.cover,
+              'images/banner/banner_$i.png',
+              fit: BoxFit.fill,
             ));
     return Container(
-      padding: const EdgeInsets.only(bottom: 30), // 轮播图底部到"每日一题"的举例
-      height: 260,
+      padding: const EdgeInsets.only(bottom: 50), // 轮播图底部到"每日一题"的举例
+      height: 227,
       child: Swiper(
         itemCount: 3,
         loop: true,
         scrollDirection: Axis.horizontal,
         index: 0,
-        autoplay: true,
+//        autoplay: true,
         itemBuilder: (ctx, index) => imgList[index],
       ),
     );
@@ -55,22 +55,22 @@ class CheckScreen extends StatelessWidget {
   /// 悬浮在banner之上的按钮栏
   Widget _getFloatButtonBar() {
     return RadiusContainer(
-      margin: const EdgeInsets.fromLTRB(24, 8, 24, 10),
-      padding: const EdgeInsets.fromLTRB(32, 12, 32, 12), // 容器内部padding
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 10),
+      padding: const EdgeInsets.fromLTRB(32, 10, 32, 10), // 容器内部padding
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(children: <Widget>[
-            Icon(Icons.featured_play_list, color: Colors.blueAccent, size: 38),
+            Icon(Icons.add_to_queue, color: Colors.blueAccent, size: 38),
             Container(width: 8),
             Text("快速问诊",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700))
           ]),
           Row(children: <Widget>[
             Icon(Icons.search, color: Colors.blueAccent, size: 38),
             Container(width: 8),
             Text("找医生",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700))
           ]),
         ],
       ),
@@ -139,17 +139,12 @@ class CheckScreen extends StatelessWidget {
         (i) => GridDataBundle(
             icon: icons[i], title: titls[i], data: datas[i], tips: tips[i]));
 
-//    print('CheckScreen._getHeathDataRow ${MediaQuery.of(context).size.width}');
-//    final width = MediaQuery.of(context).size.width;
     // todo 考虑使用Flow来替换Wrap, 让子控件间隙对齐, 目前只能手动切换 spacing 8, 与spacing 17 以均衡间隙
     return Wrap(
       spacing: 15,
       runSpacing: 8,
-//      runAlignment: WrapAlignment.,
       direction: Axis.horizontal,
       alignment: WrapAlignment.start,
-//      crossAxisAlignment: WrapCrossAlignment.end,
-
       children:
           List.generate(bundleList.length, (i) => GridDataBlock(bundleList[i])),
     );
