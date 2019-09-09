@@ -11,9 +11,4 @@ const List<String> aboutInfo = [
   "新手指引",
   "帮助与反馈",
   "为App评分"
-//  "Version: ",
-//  "Check for Updates: ",
-//  "Beginners Guide",
-//  "Help & Feedback",
-//  "Rate this app"
 ];

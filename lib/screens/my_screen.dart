@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:health_assistant/routes.dart';
 import 'package:health_assistant/utils/toast_util.dart';
-import 'package:health_assistant/widget/widget.dart';
 
 class MyScreen extends StatelessWidget {
   //todo 这里可以直接 final bloc = BlocProvider.of ... 而这些bloc的声明都应在 main.dart中的 routs中的MultiBlocProvider中写好
@@ -16,12 +15,12 @@ class MyScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-              _getUserCard(context),
-              _getTitleBar("常用工具"),
-              _getToolFlow(context),
-              _getTitleBar("更多"),
-            ] +
-            _getMoreTiles(context),
+          _getUserCard(context),
+          _getTitleBar("常用工具"),
+          _getToolFlow(context),
+          _getTitleBar("更多"),
+          _getMoreTiles(context),
+        ],
       ),
     );
   }
@@ -137,45 +136,49 @@ class MyScreen extends StatelessWidget {
               imgList.length,
               (i) => _buildValueBlock(imgList[i], titles[i],
                   padding: const EdgeInsets.all(16))) +
-          [
-            Container(
-              height: 10,
-              width: 86,
-            )
-          ]),
+          [Container(height: 10, width: 86)]),
     );
   }
 
   _getMoreTiles(BuildContext context) {
-    final List<String> titls = ["当前版本: ", "检查更新: ", "帮助与反馈", "为App评分"];
-    return [
-      ListTile(
-        title: Text(titls[0], style: Theme.of(context).textTheme.subtitle),
-        trailing: Text("v 1.0.2"), // todo 显示当前app版本....
+    final List<String> titles = ["当前版本: ", "检查更新: ", "帮助与反馈:", "为App评分"];
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text(titles[0], style: Theme.of(context).textTheme.subtitle),
+            trailing: Text("v 1.0.2"), // todo 显示当前app版本....
+          ),
+          ListTile(
+            title: Text(titles[1], style: Theme.of(context).textTheme.subtitle),
+            trailing: Text("点击检查更新"),
+            onTap: () {
+              // todo 检查app更新 .....
+
+              showToast("Checking...");
+              Future.delayed(const Duration(milliseconds: 1200)).then((_){
+                showToast("当前已是最新版本");
+              });
+            },
+          ),
+          ListTile(
+            title: Text(titles[2], style: Theme.of(context).textTheme.subtitle),
+//            subtitle: Text("hu.wentao@outlook.com"),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              showToast("反馈邮箱已复制到剪贴板");
+              Clipboard.setData(ClipboardData(text: "hu.wentao@racehf.com"));
+            },
+          ),
+          ListTile(
+            title: Text(titles[3], style: Theme.of(context).textTheme.subtitle),
+            trailing: Icon(Icons.keyboard_arrow_right),
+            onTap: () {}, // todo 跳转到评分页面
+          ),
+        ],
       ),
-      ListTile(
-        title: Text(titls[1], style: Theme.of(context).textTheme.subtitle),
-        trailing: Text("Latest version"),
-        onTap: () {
-          // todo 检查app更新 .....
-          showToast("app is up to date");
-        },
-      ),
-      ListTile(
-        title: Text(titls[2], style: Theme.of(context).textTheme.subtitle),
-        subtitle: Text("hu.wentao@outlook.com"),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () {
-          showToast("Email has been copied to the clipboard");
-          Clipboard.setData(ClipboardData(text: "hu.wentao@racehf.com"));
-        },
-      ),
-      ListTile(
-        title: Text(titls[3], style: Theme.of(context).textTheme.subtitle),
-        trailing: Icon(Icons.keyboard_arrow_right),
-        onTap: () {}, // todo 跳转到评分页面
-      ),
-    ];
+    );
   }
 }
 
@@ -187,7 +190,7 @@ _buildValueBlock(Widget wid, String title,
     child: Column(
       children: <Widget>[
         wid,
-        Text(title, style: TextStyle(fontWeight: FontWeight.w400)),
+        Text(title, style: TextStyle(fontWeight: FontWeight.w400))
       ],
     ),
   );
