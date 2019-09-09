@@ -7,26 +7,28 @@ class MyScreen extends StatelessWidget {
   //todo 这里可以直接 final bloc = BlocProvider.of ... 而这些bloc的声明都应在 main.dart中的 routs中的MultiBlocProvider中写好
 
   /// 假数据
-  final userCardTitles = ["关注", "订单", "钱包", "收藏"];
-
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          _getUserCard(context),
-          _getTitleBar("常用工具"),
-          _getToolFlow(context),
-          _getTitleBar("更多"),
-          _getMoreTiles(context),
-        ],
-      ),
+    return
+//      SingleChildScrollView(
+//      child:
+        Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        _getUserCard(context),
+        _getTitleBar("常用工具"),
+        _getToolFlow(context),
+        _getTitleBar("关于"),
+        _getMoreTiles(context),
+      ],
+//      ),
     );
   }
 
   /// 用户信息卡
   _getUserCard(BuildContext context) {
+    const List<String> userCardTitles = ["关注", "订单", "钱包", "收藏"];
+
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
       // 背景图
@@ -75,7 +77,7 @@ class MyScreen extends StatelessWidget {
     return Row(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(24, 16, 0, 8),
+          padding: const EdgeInsets.fromLTRB(24, 24, 0, 0),
           child: Text(
             title,
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
@@ -92,34 +94,13 @@ class MyScreen extends StatelessWidget {
   _getToolFlow(BuildContext context) {
     /// 图标数据
     final List<Image> imgList = [
-      Image.asset(
-        "images/my_screen/ic_tjyy.png",
-        width: 28,
-      ),
-      Image.asset(
-        "images/my_screen/ic_wdjd.png",
-        width: 28,
-      ),
-      Image.asset(
-        "images/my_screen/ic_wdwd.png",
-        width: 28,
-      ),
-      Image.asset(
-        "images/my_screen/ic_wdbx.png",
-        width: 28,
-      ),
-      Image.asset(
-        "images/my_screen/ic_jyfw.png",
-        width: 28,
-      ),
-      Image.asset(
-        "images/my_screen/ic_lxkf.png",
-        width: 28,
-      ),
-      Image.asset(
-        "images/my_screen/ic_xtsz.png",
-        width: 28,
-      ),
+      Image.asset("images/my_screen/ic_tjyy.png", width: 28),
+      Image.asset("images/my_screen/ic_wdjd.png", width: 28),
+      Image.asset("images/my_screen/ic_wdwd.png", width: 28),
+      Image.asset("images/my_screen/ic_wdbx.png", width: 28),
+      Image.asset("images/my_screen/ic_jyfw.png", width: 28),
+      Image.asset("images/my_screen/ic_lxkf.png", width: 28),
+      Image.asset("images/my_screen/ic_xtsz.png", width: 28),
     ];
     List<String> titles = [
       "预约体检",
@@ -143,7 +124,7 @@ class MyScreen extends StatelessWidget {
   _getMoreTiles(BuildContext context) {
     final List<String> titles = ["当前版本: ", "检查更新: ", "帮助与反馈:", "为App评分"];
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 8, right: 8),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -157,7 +138,7 @@ class MyScreen extends StatelessWidget {
               // todo 检查app更新 .....
 
               showToast("Checking...");
-              Future.delayed(const Duration(milliseconds: 1200)).then((_){
+              Future.delayed(const Duration(milliseconds: 1200)).then((_) {
                 showToast("当前已是最新版本");
               });
             },

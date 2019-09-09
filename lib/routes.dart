@@ -12,7 +12,7 @@ import 'package:health_assistant/page/home_page.dart';
 import 'bloc/bloc.dart';
 
 class AppRouts {
-  static const String HOME_PAGE = "/"; // HomeScreen根页面必须为 /
+  static const String HOME_PAGE = "/"; // HomeScreen根页面必须为 /, 这样app会默认载入该页面
   static const String LOGIN_PAGE = "/login";
   static const String ABOUT_PAGE = "/about";
 

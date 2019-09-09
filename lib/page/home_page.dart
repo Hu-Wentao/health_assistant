@@ -21,7 +21,9 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activeTab) {
         return Stack(children: <Widget>[
-          Scaffold(body: buildBodyBy(activeTab)),
+          Scaffold(body: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 80),
+              child: buildBodyBy(activeTab))),
           Positioned(
             bottom: 0,
             child: TabSelector(

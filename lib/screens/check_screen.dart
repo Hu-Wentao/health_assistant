@@ -7,9 +7,11 @@ class CheckScreen extends StatelessWidget {
   //todo 这里可以直接 final bloc = BlocProvider.of ... 而这些bloc的声明都应在 main.dart中的 routs中的MultiBlocProvider中写好
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
-      child: Column(
+    return
+//      SingleChildScrollView(
+//      padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
+//      child:
+    Column(
         children: <Widget>[
           Stack(
             alignment: AlignmentDirectional.bottomCenter,
@@ -25,7 +27,7 @@ class CheckScreen extends StatelessWidget {
           _getRecommendBar(), // "推荐"
           _getRecommendList(context), // 推荐内容
         ],
-      ),
+//      ),
     );
   }
 
