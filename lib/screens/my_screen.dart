@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:health_assistant/routes.dart';
+import 'package:health_assistant/utils/toast_util.dart';
+import 'package:health_assistant/widget/widget.dart';
 
 class MyScreen extends StatelessWidget {
   //todo 这里可以直接 final bloc = BlocProvider.of ... 而这些bloc的声明都应在 main.dart中的 routs中的MultiBlocProvider中写好
@@ -9,15 +12,17 @@ class MyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _getUserCard(context),
-        _getTitleBar("常用工具"),
-        _getToolFlow(context),
-        _getTitleBar("更多"),
-
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+              _getUserCard(context),
+              _getTitleBar("常用工具"),
+              _getToolFlow(context),
+              _getTitleBar("更多"),
+            ] +
+            _getMoreTiles(context),
+      ),
     );
   }
 
@@ -68,36 +73,113 @@ class MyScreen extends StatelessWidget {
   }
 
   _getTitleBar(String title) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 0, 8),
-      child: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-      ),
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 0, 8),
+          child: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+          ),
+        ),
+        Container(
+          height: 0,
+        )
+      ],
     );
   }
 
   /// 常用工具
   _getToolFlow(BuildContext context) {
-    /// 假数据
-    List<IconData> icons = [
-      Icons.timer,
-      Icons.contact_phone,
-      Icons.business_center,
-      Icons.question_answer,
+    /// 图标数据
+    final List<Image> imgList = [
+      Image.asset(
+        "images/my_screen/ic_tjyy.png",
+        width: 28,
+      ),
+      Image.asset(
+        "images/my_screen/ic_wdjd.png",
+        width: 28,
+      ),
+      Image.asset(
+        "images/my_screen/ic_wdwd.png",
+        width: 28,
+      ),
+      Image.asset(
+        "images/my_screen/ic_wdbx.png",
+        width: 28,
+      ),
+      Image.asset(
+        "images/my_screen/ic_jyfw.png",
+        width: 28,
+      ),
+      Image.asset(
+        "images/my_screen/ic_lxkf.png",
+        width: 28,
+      ),
+      Image.asset(
+        "images/my_screen/ic_xtsz.png",
+        width: 28,
+      ),
     ];
-    List<String> titles = ["快速预约", "家庭联系人", "邀请有奖", "常见问题"];
+    List<String> titles = [
+      "预约体检",
+      "我的解读",
+      "我的问答",
+      "我的保险",
+      "就医服务",
+      "联系客服",
+      "系统设置"
+    ];
     return Wrap(
-      children: List.generate(
-          icons.length,
-          (i) => _buildValueBlock(
-              Icon(icons[i], color: Colors.lightBlue, size: 32), titles[i],
-              padding: const EdgeInsets.all(16))),
+      alignment: WrapAlignment.spaceEvenly,
+      children: (List<Widget>.generate(
+              imgList.length,
+              (i) => _buildValueBlock(imgList[i], titles[i],
+                  padding: const EdgeInsets.all(16))) +
+          [
+            Container(
+              height: 10,
+              width: 86,
+            )
+          ]),
     );
+  }
+
+  _getMoreTiles(BuildContext context) {
+    final List<String> titls = ["当前版本: ", "检查更新: ", "帮助与反馈", "为App评分"];
+    return [
+      ListTile(
+        title: Text(titls[0], style: Theme.of(context).textTheme.subtitle),
+        trailing: Text("v 1.0.2"), // todo 显示当前app版本....
+      ),
+      ListTile(
+        title: Text(titls[1], style: Theme.of(context).textTheme.subtitle),
+        trailing: Text("Latest version"),
+        onTap: () {
+          // todo 检查app更新 .....
+          showToast("app is up to date");
+        },
+      ),
+      ListTile(
+        title: Text(titls[2], style: Theme.of(context).textTheme.subtitle),
+        subtitle: Text("hu.wentao@outlook.com"),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () {
+          showToast("Email has been copied to the clipboard");
+          Clipboard.setData(ClipboardData(text: "hu.wentao@racehf.com"));
+        },
+      ),
+      ListTile(
+        title: Text(titls[3], style: Theme.of(context).textTheme.subtitle),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () {}, // todo 跳转到评分页面
+      ),
+    ];
   }
 }
 
-/// 上widget, 下文字
+/// 上widget, 下文字    //todo 添加点击事件入口
 _buildValueBlock(Widget wid, String title,
     {EdgeInsets padding: const EdgeInsets.all(8.0)}) {
   return Padding(

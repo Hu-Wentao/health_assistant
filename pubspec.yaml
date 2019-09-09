@@ -41,20 +41,12 @@ dev_dependencies:
 
 
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
   assets:
-    - images/banner/banner_0.png
-    - images/banner/banner_1.png
-    - images/banner/banner_2.jpg
-
-    - images/recommend/img_1.jpg
-
-    - images/user_card_bg.png
-    - images/default_avatar.png
+    - images/
+    - images/banner/
+    - images/recommend/
+    - images/my_screen/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
