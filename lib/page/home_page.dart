@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_assistant/bloc/bloc.dart';
 import 'package:health_assistant/models/app_tab.dart';
 import 'package:health_assistant/screens/check_screen.dart';
-import 'package:health_assistant/screens/community_screen.dart';
+import 'package:health_assistant/screens/news_screen.dart';
 import 'package:health_assistant/screens/my_screen.dart';
 import 'package:health_assistant/widget/tab_selector.dart';
 
@@ -21,9 +21,10 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<TabBloc, AppTab>(
       builder: (context, activeTab) {
         return Stack(children: <Widget>[
-          Scaffold(body: SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 80),
-              child: buildBodyBy(activeTab))),
+          Scaffold(
+              body: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 80),
+                  child: buildBodyBy(activeTab))),
           Positioned(
             bottom: 0,
             child: TabSelector(
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
       case AppTab.CHECK:
         return CheckScreen();
       case AppTab.COMMUNITY:
-        return CommunityScreen();
+        return NewsScreen();
       case AppTab.MY:
         return MyScreen();
     }

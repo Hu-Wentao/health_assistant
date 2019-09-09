@@ -11,22 +11,22 @@ class CheckScreen extends StatelessWidget {
 //      SingleChildScrollView(
 //      padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
 //      child:
-    Column(
-        children: <Widget>[
-          Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            children: <Widget>[
-              _getRotation(), // 轮播图
-              _getFloatButtonBar(), // 浮动按钮栏
-            ],
-          ),
-          _getDailyQuestionBar(), // 每日一题
-          _getHeathBar(), // "我的健康"
-          _getHeathDataFlow(context), // 健康块
+        Column(
+      children: <Widget>[
+        Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: <Widget>[
+            _getRotation(), // 轮播图
+            _getFloatButtonBar(), // 浮动按钮栏
+          ],
+        ),
+        _getDailyQuestionBar(), // 每日一题
+        _getHeathBar(), // "我的健康"
+        _getHeathDataFlow(context), // 健康块
 
-          _getRecommendBar(), // "推荐"
-          _getRecommendList(context), // 推荐内容
-        ],
+        _getRecommendBar(), // "推荐"
+        _getRecommendList(context), // 推荐内容
+      ],
 //      ),
     );
   }
@@ -142,43 +142,45 @@ class CheckScreen extends StatelessWidget {
         titls.length,
         (i) => GridDataBundle(
             icon: icons[i], title: titls[i], data: datas[i], tips: tips[i]));
-
-    // todo 考虑使用Flow来替换Wrap, 让子控件间隙对齐, 目前只能手动切换 spacing 8, 与spacing 17 以均衡间隙
     return Wrap(
-      spacing: 15,
+      spacing: 8,
       runSpacing: 8,
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.start,
-      children:
-          List.generate(bundleList.length, (i) => GridDataBlock(bundleList[i])),
+      alignment: WrapAlignment.spaceEvenly,
+      children: List<Widget>.generate(
+          bundleList.length, (i) => GridDataBlock(bundleList[i])),
     );
   }
 
   _getRecommendBar() {
+    // todo "更多" 按钮添加点击事件到第二个页面...
     return _buildBar("推荐", "更多>");
   }
 
   _getRecommendList(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            width: 120,
-            height: 100,
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                child: Image.asset(
-                  "images/recommend/img_1.jpg",
-                  fit: BoxFit.fitHeight,
-                ))),
-        Expanded(
-          child: Text(
-            "糖尿病患者临睡前怎样合理加餐",
-            style: Theme.of(context).textTheme.title,
-          ),
-        )
-      ],
+    return NewsTile(
+      imgLead: Image.asset(
+        "images/recommend/img_1.jpg",
+        fit: BoxFit.fitHeight,
+      ),
+      title: "糖尿病患者临睡前怎样合理加餐",
     );
+//    return Row(
+//      children: <Widget>[
+//        Container(
+//            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+//            width: 120,
+//            height: 100,
+//            child: ClipRRect(
+//                borderRadius: BorderRadius.all(Radius.circular(12)),
+//                child: )),
+//        Expanded(
+//          child: Text(
+//            ,
+//            style: Theme.of(context).textTheme.title,
+//          ),
+//        )
+//      ],
+//    );
   }
 }
 

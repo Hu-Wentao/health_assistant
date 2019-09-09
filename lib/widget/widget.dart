@@ -5,3 +5,4 @@ export 'radius_expansion_tile.dart';
 export 'radius_stream_expansion_tile.dart';
 export 'tab_selector.dart';
 export 'text_devider.dart';
+export 'news_tile.dart';
