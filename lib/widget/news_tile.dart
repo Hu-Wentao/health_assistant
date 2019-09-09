@@ -13,7 +13,8 @@ class NewsTile extends StatelessWidget {
   final Image imgTrail;
 
   final String author;
-  final String time;
+
+//  final String time;
 
   const NewsTile({
     Key key,
@@ -21,7 +22,6 @@ class NewsTile extends StatelessWidget {
     this.title,
     this.imgTrail,
     this.author,
-    this.time,
   })  : assert(title != null),
         super(key: key);
 
@@ -29,16 +29,49 @@ class NewsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> widList = [];
     if (imgLead != null) widList.add(processImg(imgLead));
-    widList.add(Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(title, style: Theme.of(context).textTheme.title),
-          Row(children: <Widget>[Text(author), Text(time)])
-        ],
-      ),
-    ));
+    if(author != null) {
+      widList.add(Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(title, style: Theme
+                  .of(context)
+                  .textTheme
+                  .title),
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 4, bottom: 4),
+                  child: Text(author),
+                ),
+                Expanded(child: Container())
+              ],
+            )
+          ],
+        ),
+      ));
+    }else{
+      widList.add(
+          Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(title, style: Theme
+                  .of(context)
+                  .textTheme
+                  .title),
+            ],
+          ),
+        ),
+      ));
+    }
     if (imgTrail != null) widList.add(processImg(imgTrail));
+
 
     return Row(children: widList);
   }

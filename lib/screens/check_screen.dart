@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:health_assistant/routes.dart';
 import 'package:health_assistant/widget/grid_data_block.dart';
 import 'package:health_assistant/widget/widget.dart';
 
@@ -142,12 +143,17 @@ class CheckScreen extends StatelessWidget {
         titls.length,
         (i) => GridDataBundle(
             icon: icons[i], title: titls[i], data: datas[i], tips: tips[i]));
+
+    /// 占位
+    final Widget placeHolder =
+        Opacity(opacity: 0.0, child: GridDataBlock(bundleList[0]));
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       alignment: WrapAlignment.spaceEvenly,
       children: List<Widget>.generate(
-          bundleList.length, (i) => GridDataBlock(bundleList[i])),
+              bundleList.length, (i) => GestureDetector(child: GridDataBlock(bundleList[i]), onTap: ()=>_onTapGridBlock(i, context),)) +
+          [placeHolder, placeHolder],
     );
   }
 
@@ -158,29 +164,24 @@ class CheckScreen extends StatelessWidget {
 
   _getRecommendList(BuildContext context) {
     return NewsTile(
-      imgLead: Image.asset(
-        "images/recommend/img_1.jpg",
-        fit: BoxFit.fitHeight,
-      ),
+      imgLead: Image.asset("images/recommend/img_1.jpg", fit: BoxFit.fitHeight),
       title: "糖尿病患者临睡前怎样合理加餐",
     );
-//    return Row(
-//      children: <Widget>[
-//        Container(
-//            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-//            width: 120,
-//            height: 100,
-//            child: ClipRRect(
-//                borderRadius: BorderRadius.all(Radius.circular(12)),
-//                child: )),
-//        Expanded(
-//          child: Text(
-//            ,
-//            style: Theme.of(context).textTheme.title,
-//          ),
-//        )
-//      ],
-//    );
+  }
+}
+
+/// 点击了块
+_onTapGridBlock(int i, BuildContext context) {
+  switch(i){
+    case 0:
+      Navigator.of(context).pushNamed(AppRoutes.BLOOD_PRESSURE_PAGE);
+      break;
+    case 1:
+      Navigator.of(context).pushNamed(AppRoutes.BLOOD_GLUCOSE_PAGE);
+      break;
+    case 2:
+      Navigator.of(context).pushNamed(AppRoutes.WEIGHT_PAGE);
+      break;
   }
 }
 

@@ -55,7 +55,7 @@ class MyScreen extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w800, fontSize: 28)),
                     onTap: () =>
-                        AppRouts.goPageBy(AppRouts.LOGIN_PAGE, context),
+                        AppRoutes.goPageBy(AppRoutes.LOGIN_PAGE, context),
                   ),
                   ClipOval(child: Image.asset("images/default_avatar.png")),
                 ],
@@ -65,7 +65,7 @@ class MyScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(4,
-                  (i) => _buildValueBlock(const Text("0"), userCardTitles[i])),
+                  (i) => buildValueBlock(const Text("0"), userCardTitles[i])),
             ),
           ],
         ),
@@ -109,15 +109,16 @@ class MyScreen extends StatelessWidget {
       "我的保险",
       "就医服务",
       "联系客服",
-      "系统设置"
+      "系统设置",
     ];
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
       children: (List<Widget>.generate(
               imgList.length,
-              (i) => _buildValueBlock(imgList[i], titles[i],
+              (i) => buildValueBlock(imgList[i], titles[i],
                   padding: const EdgeInsets.all(16))) +
-          [Container(height: 10, width: 86)]),
+          // 占位
+          [Opacity(opacity: 0.0, child: buildValueBlock(imgList[0], titles[0]),)]),
     );
   }
 
@@ -164,7 +165,7 @@ class MyScreen extends StatelessWidget {
 }
 
 /// 上widget, 下文字    //todo 添加点击事件入口
-_buildValueBlock(Widget wid, String title,
+buildValueBlock(Widget wid, String title,
     {EdgeInsets padding: const EdgeInsets.all(8.0)}) {
   return Padding(
     padding: padding,

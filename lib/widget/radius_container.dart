@@ -22,8 +22,18 @@ class RadiusContainer extends StatelessWidget {
   RadiusContainer.col({Key key, List<Widget> children})
       : this(key: key, child: Column(children: children));
 
-  RadiusContainer.row({Key key, List<Widget> children})
-      : this(key: key, child: Row(children: children));
+  RadiusContainer.row(
+      {Key key,
+      List<Widget> children,
+      MainAxisAlignment mainAxisAlignment: MainAxisAlignment.start,
+      CrossAxisAlignment crossAxisAlignment: CrossAxisAlignment.center})
+      : this(
+            key: key,
+            child: Row(
+              children: children,
+              mainAxisAlignment: mainAxisAlignment,
+              crossAxisAlignment: crossAxisAlignment,
+            ));
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +42,7 @@ class RadiusContainer extends StatelessWidget {
       child: Material(
         child: Container(
           padding: padding,
-            child: child,
+          child: child,
         ),
         color: bgColor,
         borderRadius: BorderRadius.circular(15.0),

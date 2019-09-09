@@ -22,6 +22,6 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'health assistant',
             theme: ThemeData(primarySwatch: Colors.lightBlue),
-            routes: AppRouts.routes));
+            routes: AppRoutes.routes));
   }
 }
