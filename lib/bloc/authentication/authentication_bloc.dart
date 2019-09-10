@@ -35,7 +35,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
           //todo 后端程序BUG.... 没有检查用户名是否重复
           dispatch(Logout("Sign in failed: Incorrect User Name or Password. Please re-enter."));
         }
-//        yield* _verifyUserInfo((event as VerifyUser).user);
+        yield* _verifyUserInfo((event as VerifyUser).user);
         break;
       case Login:
 //        print('LoginBloc.mapEventToState 收到保存用户的请求');
@@ -46,13 +46,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         } else {
           yield Signed(user);
         }
-//        yield* _saveUser((event as Login).user);
+        yield* _saveUser((event as Login).user);
         break;
       case Logout:
         // todo 没有在远程注销, 因为没有存储cookie
         await SharedPreferenceUtil.saveUser(null);
         yield UnSigned();
-//        yield* _saveUser(null);
+        yield* _saveUser(null);
         break;
       case Register:
         final user = (event as Register).user;
@@ -77,7 +77,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         } else {
           yield Signed(user);
         }
-//        yield* _syncState();
+        yield* _syncState();
         break;
     }
   }

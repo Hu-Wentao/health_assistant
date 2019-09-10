@@ -315,11 +315,11 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     AutoOrientation.portraitAutoMode();
 //
-//    _loginBloc.state.listen((state) {
-//      if (state.runtimeType == Signed) {
-//        Navigator.of(context).pop();
-//      }
-//    });
+    BlocProvider.of<AuthenticationBloc>(context).state.listen((state) {
+      if (state.runtimeType == Signed) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_assistant/bloc/bloc.dart';
 import 'package:health_assistant/routes.dart';
 import 'package:health_assistant/utils/toast_util.dart';
 
@@ -9,13 +11,15 @@ class MyScreen extends StatelessWidget {
   /// 假数据
   @override
   Widget build(BuildContext context) {
+    final AuthenticationBloc authBloc =
+        BlocProvider.of<AuthenticationBloc>(context);
     return
 //      SingleChildScrollView(
 //      child:
         Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        _getUserCard(context),
+        _getUserCard(context, authBloc),
         _getTitleBar("常用工具"),
         _getToolFlow(context),
         _getTitleBar("关于"),
@@ -26,7 +30,7 @@ class MyScreen extends StatelessWidget {
   }
 
   /// 用户信息卡
-  _getUserCard(BuildContext context) {
+  _getUserCard(BuildContext context, AuthenticationBloc authBloc) {
     const List<String> userCardTitles = ["关注", "订单", "钱包", "收藏"];
 
     return Container(
@@ -50,13 +54,8 @@ class MyScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  GestureDetector(
-                    child: Text("登录/注册",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 28)),
-                    onTap: () =>
-                        AppRoutes.goPageBy(AppRoutes.LOGIN_PAGE, context),
-                  ),
+                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                      bloc: authBloc, builder: _buildUserNameTitle),
                   ClipOval(child: Image.asset("images/default_avatar.png")),
                 ],
               ),
@@ -118,7 +117,12 @@ class MyScreen extends StatelessWidget {
               (i) => buildValueBlock(imgList[i], titles[i],
                   padding: const EdgeInsets.all(16))) +
           // 占位
-          [Opacity(opacity: 0.0, child: buildValueBlock(imgList[0], titles[0]),)]),
+          [
+            Opacity(
+              opacity: 0.0,
+              child: buildValueBlock(imgList[0], titles[0]),
+            )
+          ]),
     );
   }
 
@@ -160,6 +164,19 @@ class MyScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+Widget _buildUserNameTitle(BuildContext ctx, AuthenticationState state) {
+  if (state is Signed) {
+    return Text(state.user.uName,
+        style: TextStyle(fontWeight: FontWeight.w800, fontSize: 28));
+  } else {
+    return GestureDetector(
+      child: Text("登录/注册",
+          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 28)),
+      onTap: () => AppRoutes.goPageBy(AppRoutes.LOGIN_PAGE, ctx),
     );
   }
 }
